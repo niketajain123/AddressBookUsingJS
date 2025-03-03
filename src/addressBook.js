@@ -18,21 +18,33 @@ function validateContact(contact) {
   const zipRegex = /^\d{5}$/;
   const phoneRegex = /^\d{10}$/;
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-
-  if (!nameRegex.test(contact.firstName) || !nameRegex.test(contact.lastName))
+  console.log("Validating:", contact);
+  if (!nameRegex.test(contact.firstName)) {
+    console.error("Invalid first name");
     return false;
+  }
+  if (!nameRegex.test(contact.lastName)) {
+    console.error("Invalid last name");
+    return false;
+  }
   if (
     !addressRegex.test(contact.address) ||
     !addressRegex.test(contact.city) ||
     !addressRegex.test(contact.state)
-  )
+  ) {
+    console.error("Invalid address, city, or state");
+
     return false;
+  }
   if (
     !zipRegex.test(contact.zip) ||
     !phoneRegex.test(contact.phone) ||
     !emailRegex.test(contact.email)
-  )
+  ) {
+    console.error("Invalid zip, phone, or email");
+
     return false;
+  }
   return true;
 }
 function addContact(contact) {
@@ -105,3 +117,83 @@ function sortByName() {
 function sortBy(attribute) {
   return addressBook.sort((a, b) => a[attribute].localeCompare(b[attribute]));
 }
+
+const contact1 = new Contact(
+  "Rajesh",
+  "Kumar",
+  "123 MG Road",
+  "Bangalore",
+  "Karnataka",
+  "56001",
+  "9876543210",
+  "rajesh.kumar@example.com"
+);
+const contact2 = new Contact(
+  "Priya",
+  "Sharma",
+  "456 Vasant Vihar",
+  "Delhi",
+  "Delhi",
+  "11001",
+  "1234567890",
+  "priya.sharma@example.com"
+);
+const contact3 = new Contact(
+  "Amit",
+  "Verma",
+  "789 LBS Nagar",
+  "Mumbai",
+  "Maharashtra",
+  "40001",
+  "3456789012",
+  "amit.verma@example.com"
+);
+const contact4 = new Contact(
+  "Anjali",
+  "Patel",
+  "101 Gandhi Marg",
+  "Ahmedabad",
+  "Gujarat",
+  "38001",
+  "7890654321",
+  "anjali.patel@example.com"
+);
+const contact5 = new Contact(
+  "Sandeep",
+  "Reddy",
+  "202 Hitech City",
+  "Hyderabad",
+  "Telangana",
+  "50001",
+  "5432167890",
+  "sandeep.reddy@example.com"
+);
+addContact(contact1);
+addContact(contact2);
+addContact(contact3);
+addContact(contact4);
+addContact(contact5);
+
+console.log("Total contacts: ", countContacts()); // Outputs: 2
+
+editContactByName(
+  "Rajesh Kumar",
+  new Contact(
+    "Rajesh",
+    "Kumar",
+    "123 MG Road",
+    "Bangalore",
+    "Karnataka",
+    "560001",
+    "9876560000",
+    "rajesh.kumar@example.com"
+  )
+);
+console.log(addressBook); // Verify contact1 is edited
+
+deleteContactByName("Priya Sharma");
+console.log(addressBook); // Verify contact2 is deleted
+
+console.log("Contacts in New York: ", viewByCityOrState("Bangalore")); // Outputs contacts in New York
+
+console.log("Contacts sorted by name: ", sortByName()); // Outputs contacts sorted by name
